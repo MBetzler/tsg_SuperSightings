@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>TEMP - Locations</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    </style>
+</head>
+
+<body style="overflow-y: scroll;">
+    <!-- Navigation Links -->
+    <nav id="locNav" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <!-- <a class="navbar-brand" href="#">Superhero/Supervillain Sightings</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="location.html">Locations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="entity.html">Superheroes/Supervillains</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="organization.html">Organizations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sighting.html">Sightings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Page Header -->
+    <div id="locPH" class="page-header" style="text-align: center; padding: 1em 0px 0.5em; position: fixed; z-index: 1; background-color: white; width: 100%; top: 56px;">
+        <h2>Locations
+            <small class="text-muted"> of Superhero/Supervillain Sightings</small>
+        </h2>
+    </div>
+
+    <!-- Form to Edit a Location; hidden by default and made visible only during Edit -->
+    <div id="editLocDiv" style="position: fixed; z-index: 1; width: 75%; margin: 0px 12%; background-color: rgb(52, 58, 64); padding: 3%; display: none; top: 196px;">
+        <form class="needs-validation" id="editLocForm" novalidate="">
+            <div class="form-row">
+                <div class="col-8">
+                    <input type="hidden" id="editLocId">
+                    <input id="editLocName" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required="">
+                    <div class="invalid-feedback">
+                        Name is required.
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input id="editLocLatitude" type="number" class="form-control form-control-sm" placeholder="Latitude" min="-90" max="90"
+                        step="0.000001" required="">
+                    <div class="invalid-feedback">
+                        Latitude is required.
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input id="editLocLongitude" type="number" class="form-control form-control-sm" placeholder="Longitude" min="-180" max="180"
+                        step="0.000001" required="">
+                    <div class="invalid-feedback">
+                        Longitude is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col">
+                    <!-- <input id="editLocDescription" type="text" class="form-control form-control-sm" placeholder="Description" maxlength="255"
+                            required> -->
+                    <textarea id="editLocDescription" class="form-control form-control-sm" style="resize: none;" placeholder="Description" maxlength="255"
+                        rows="3" required=""></textarea>
+                    <div class="invalid-feedback">
+                        Description is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col">
+                    <input id="editLocAddress" type="text" class="form-control form-control-sm" placeholder="Address" maxlength="75">
+                    <div class="valid-feedback">
+                        Address is optional.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col" id="editLocErrors" style="display: none;">
+
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                <div class="col">
+                    <button id="cancelLocEditButton" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                        onclick="cancelEditLoc()">Cancel</button>
+                    <button id="saveLocEdit" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Open of fade section -->
+    <div id="fadeLocMainDiv">
+        <!-- Add Location -->
+        <div class="container">
+            <div id="addLocNavTog" class="pos-f-t" style="padding: 1em 0em 0.35em; position: relative; top: 126px;">
+                <div class="collapse" id="addLocToggle">
+                    <div class="bg-dark p-4">
+                        <!-- <h4 class="text-white">Collapsed content</h4>
+                        <span class="text-muted">Toggleable via the navbar brand.</span> -->
+                        <form class="needs-validation" id="addLocForm" novalidate="">
+                            <div class="form-row">
+                                <div class="col-8">
+                                    <input id="addLocName" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required="">
+                                    <div class="invalid-feedback">
+                                        Name is required.
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <input id="addLocLatitude" type="number" class="form-control form-control-sm" placeholder="Latitude" min="-90" max="90" step="0.000001"
+                                        required="">
+                                    <div class="invalid-feedback">
+                                        Latitude is required.
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <input id="addLocLongitude" type="number" class="form-control form-control-sm" placeholder="Longitude" min="-180" max="180"
+                                        step="0.000001" required="">
+                                    <div class="invalid-feedback">
+                                        Longitude is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1%;">
+                                <div class="col">
+                                    <!-- <input id="addLocDescription" type="text" class="form-control form-control-sm" placeholder="Description" maxlength="255"
+                                            required> -->
+                                    <textarea id="addLocDescription" class="form-control form-control-sm" style="resize: none;" placeholder="Description" maxlength="255"
+                                        rows="3" required=""></textarea>
+                                    <div class="invalid-feedback">
+                                        Description is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1%;">
+                                <div class="col">
+                                    <input id="addLocAddress" type="text" class="form-control form-control-sm" placeholder="Address" maxlength="75">
+                                    <div class="valid-feedback">
+                                        Address is optional.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1%;">
+                                <div class="col" id="addLocErrors" style="display: none;">
+
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                                <div class="col">
+                                    <button id="cancelAddLocation" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                        onclick="cancelAddLoc()">Cancel</button>
+                                    <button id="addLocation" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark bg-dark">
+                    <div>
+                        <button id="addLocNavButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#addLocToggle" aria-controls="addLocToggle"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <h6 class="text-white" style="display: inline-block; margin-left: 1em;">Add a Location </h6>
+                        <span class="text-muted">
+                            <em>before adding an associated Sighting.</em>
+                        </span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div id="locContainer" style="position: relative; top: 125.406px;">
+            <!-- Locations or Web Service Status go here -->
+
+
+
+            <div id="locId1" class="container">
+                <div id="locNavTog1" class="pos-f-t" style="padding-bottom: 0.35em;">
+                    <nav class="navbar navbar-dark bg-secondary">
+                        <div class="row">
+                            <div class="col-1">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx1"
+                                    aria-controls="navbarTogEx1" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="col-11" style="padding-top: 0.75%;">
+                                <h6 id="locName1" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">Big Ben</h6>
+                                <span class="text-white" style="font-size: 90%;">Coordinates:
+                                    <span id="locLat1" style="font-size: 90%;">51.510357
+                                        
+                                    </span>
+                                    <span style="font-size: 90%;">°</span>
+                                    <span>, </span>
+                                    <span id="locLong1" style="font-size: 90%;">-0.116773
+                                        <span>°</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="navbarTogEx1" class="collapse show">
+                        <div class="bg-dark p-4">
+                            <p id="locDesc1" class="text-white" style="margin-left: 2%; margin-right: 2%;">The Great Bell of the clock at the north end of the Palace of Westminster in London.</p>
+                            <p id="locAddress1"
+                                class="text-white" style="margin-left: 2%; margin-right: 2%; margin-bottom: 1%;">Westminster, London SW1A 0AA, UK</p><!--margin-bottom: 1%-->
+
+                                <div class="row" style="margin-left: 2%; margin-right: 2%;">
+                                        <div class="col" id="locErrors" style="padding: 0; display: none;">
+                                            <p class="small" style="color: red; padding: 0; margin-top: 0; margin-bottom: 0;">A Location associated with a sighting(s) may not be deleted.</p>
+                                        </div>
+                                    </div>
+
+                            <form style="text-align: center; padding-top: 3%;"><!--increase padding-top 2 -> 3-->
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;"
+                                        onclick="editLocation(1)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;"
+                                        onclick="deleteLocation(1)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div id="locId2" class="container">
+                <div id="locNavTog2" class="pos-f-t" style="padding-bottom: 0.35em;">
+                    <nav class="navbar navbar-dark bg-secondary">
+                        <div class="row">
+                            <div class="col-1">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx2"
+                                    aria-controls="navbarTogEx2" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="col-11" style="padding-top: 0.75%;">
+                                <h6 id="locName2" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">Senso-ji</h6>
+                                <span class="text-white" style="font-size: 90%;">Coordinates:
+                                    <span id="locLat2" style="font-size: 90%;">35.689488
+                                        <span>°</span>
+                                    </span>
+                                    <span>, </span>
+                                    <span id="locLong2" style="font-size: 90%;">139.691706
+                                        <span>°</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="navbarTogEx2" class="collapse">
+                        <div class="bg-dark p-4">
+                            <p id="locDesc2" class="text-white" style="margin-left: 2%; margin-right: 2%;">Ancient Buddhist temple.</p>
+                            <p id="locAddress2" class="text-white" style="margin-left: 2%; margin-right: 2%;">2 Chome-3-1 Asakusa, Taito, Tokyo 111-0032, Japan</p>
+                            <form style="text-align: center; padding-top: 2%;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;"
+                                        onclick="editLocation(2)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;"
+                                        onclick="deleteLocation(2)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="locId3" class="container">
+                <div id="locNavTog3" class="pos-f-t" style="padding-bottom: 0.35em;">
+                    <nav class="navbar navbar-dark bg-secondary">
+                        <div class="row">
+                            <div class="col-1">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx3"
+                                    aria-controls="navbarTogEx3" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="col-11" style="padding-top: 0.75%;">
+                                <h6 id="locName3" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">Mount Erebus</h6>
+                                <span class="text-white" style="font-size: 90%;">Coordinates:
+                                    <span id="locLat3" style="font-size: 90%;">-77.529291
+                                        <span>°</span>
+                                    </span>
+                                    <span>, </span>
+                                    <span id="locLong3" style="font-size: 90%;">167.152311
+                                        <span>°</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="navbarTogEx3" class="collapse">
+                        <div class="bg-dark p-4">
+                            <p id="locDesc3" class="text-white" style="margin-left: 2%; margin-right: 2%;">Southernmost active volcano on Earth.</p>
+                            <p id="locAddress3" class="text-white" style="margin-left: 2%; margin-right: 2%;">Ross Island, Antarctica</p>
+                            <form style="text-align: center; padding-top: 2%;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;"
+                                        onclick="editLocation(3)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;"
+                                        onclick="deleteLocation(3)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="locId4" class="container">
+                <div id="locNavTog4" class="pos-f-t" style="padding-bottom: 0.35em;">
+                    <nav class="navbar navbar-dark bg-secondary">
+                        <div class="row">
+                            <div class="col-1">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx4"
+                                    aria-controls="navbarTogEx4" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="col-11" style="padding-top: 0.75%;">
+                                <h6 id="locName4" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">Times Square</h6>
+                                <span class="text-white" style="font-size: 90%;">Coordinates:
+                                    <span id="locLat4" style="font-size: 90%;">40.758896
+                                        <span>°</span>
+                                    </span>
+                                    <span>, </span>
+                                    <span id="locLong4" style="font-size: 90%;">-73.98513
+                                        <span>°</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="navbarTogEx4" class="collapse">
+                        <div class="bg-dark p-4">
+                            <p id="locDesc4" class="text-white" style="margin-left: 2%; margin-right: 2%;">Bustling destination in the heart of the Theater District known for bright lights, shopping &amp;
+                                shows.</p>
+                            <p id="locAddress4" class="text-white" style="margin-left: 2%; margin-right: 2%;">Manhattan, NY 10036</p>
+                            <form style="text-align: center; padding-top: 2%;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;"
+                                        onclick="editLocation(4)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;"
+                                        onclick="deleteLocation(4)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="locId5" class="container">
+                <div id="locNavTog5" class="pos-f-t" style="padding-bottom: 0.35em;">
+                    <nav class="navbar navbar-dark bg-secondary">
+                        <div class="row">
+                            <div class="col-1">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx5"
+                                    aria-controls="navbarTogEx5" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="col-11" style="padding-top: 0.75%;">
+                                <h6 id="locName5" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">Great Pyramid at Giza</h6>
+                                <span class="text-white" style="font-size: 90%;">Coordinates:
+                                    <span id="locLat5" style="font-size: 90%;">29.97648
+                                        <span>°</span>
+                                    </span>
+                                    <span>, </span>
+                                    <span id="locLong5" style="font-size: 90%;">31.131302
+                                        <span>°</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="navbarTogEx5" class="collapse">
+                        <div class="bg-dark p-4">
+                            <p id="locDesc5" class="text-white" style="margin-left: 2%; margin-right: 2%;">Oldest of the Seven Wonders of the Ancient World, and the only one to remain largely intact.</p>
+                            <p
+                                id="locAddress5" class="text-white" style="margin-left: 2%; margin-right: 2%;">Al Haram, Nazlet El-Semman, Al Haram, Giza Governorate, Egypt</p>
+                            <form style="text-align: center; padding-top: 2%;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;"
+                                        onclick="editLocation(5)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;"
+                                        onclick="deleteLocation(5)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="locId6" class="container">
+                <div id="locNavTog6" class="pos-f-t" style="padding-bottom: 0.35em;">
+                    <nav class="navbar navbar-dark bg-secondary">
+                        <div class="row">
+                            <div class="col-1">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx6"
+                                    aria-controls="navbarTogEx6" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="col-11" style="padding-top: 0.75%;">
+                                <h6 id="locName6" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">St. Basil's Cathedral</h6>
+                                <span class="text-white" style="font-size: 90%;">Coordinates:
+                                    <span id="locLat6" style="font-size: 90%;">55.754093
+                                        <span>°</span>
+                                    </span>
+                                    <span>, </span>
+                                    <span id="locLong6" style="font-size: 90%;">37.620407
+                                        <span>°</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="navbarTogEx6" class="collapse">
+                        <div class="bg-dark p-4">
+                            <p id="locDesc6" class="text-white" style="margin-left: 2%; margin-right: 2%;">A cathedral ordered by Ivan the Terrible to mark the 1552 capture of Kazan from Mongol forces.</p>
+                            <p
+                                id="locAddress6" class="text-white" style="margin-left: 2%; margin-right: 2%;">Red Square, Moskva, Russia, 109012</p>
+                            <form style="text-align: center; padding-top: 2%;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;"
+                                        onclick="editLocation(6)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;"
+                                        onclick="deleteLocation(6)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="locId7" class="container">
+                <div id="locNavTog7" class="pos-f-t" style="padding-bottom: 0.35em;">
+                    <nav class="navbar navbar-dark bg-secondary">
+                        <div class="row">
+                            <div class="col-1">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx7"
+                                    aria-controls="navbarTogEx7" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="col-11" style="padding-top: 0.75%;">
+                                <h6 id="locName7" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">Frank's Diner</h6>
+                                <span class="text-white" style="font-size: 90%;">Coordinates:
+                                    <span id="locLat7" style="font-size: 90%;">42.583517
+                                        <span>°</span>
+                                    </span>
+                                    <span>, </span>
+                                    <span id="locLong7" style="font-size: 90%;">-87.817613
+                                        <span>°</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="navbarTogEx7" class="collapse">
+                        <div class="bg-dark p-4">
+                            <p id="locDesc7" class="text-white" style="margin-left: 2%; margin-right: 2%;">Home of the Garbage Plate.</p>
+                            <p id="locAddress7" class="text-white" style="margin-left: 2%; margin-right: 2%;">508-58th Street, Kenosha, Wisconsin 53140</p>
+                            <form style="text-align: center; padding-top: 2%;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;"
+                                        onclick="editLocation(7)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;"
+                                        onclick="deleteLocation(7)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="locId8" class="container">
+                <div id="locNavTog8" class="pos-f-t" style="padding-bottom: 0.35em;">
+                    <nav class="navbar navbar-dark bg-secondary">
+                        <div class="row">
+                            <div class="col-1">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx8"
+                                    aria-controls="navbarTogEx8" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="col-11" style="padding-top: 0.75%;">
+                                <h6 id="locName8" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">Location name fifty characters long for displaying</h6>
+                                <span class="text-white" style="font-size: 90%;">Coordinates:
+                                    <span id="locLat8" style="font-size: 90%;">-89.999999
+                                        <span>°</span>
+                                    </span>
+                                    <span>, </span>
+                                    <span id="locLong8" style="font-size: 90%;">-179.999999
+                                        <span>°</span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </nav>
+                    <div id="navbarTogEx8" class="collapse">
+                        <div class="bg-dark p-4">
+                            <p id="locDesc8" class="text-white" style="margin-left: 2%; margin-right: 2%;">Location description 255 chars long long long and long and on on on and on and on....and more....and
+                                more chars...yet more loc chars....and more. And more. And more. Very long loc desc. Very
+                                very very long loc desc. Almost 255...not quite.....almost.</p>
+                            <p id="locAddress8" class="text-white"
+                                style="margin-left: 2%; margin-right: 2%;">Location address may be 75 chars long...so babble away up to 75 chars..done</p>
+                            <form style="text-align: center; padding-top: 2%;">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;"
+                                        onclick="editLocation(8)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;"
+                                        onclick="deleteLocation(8)">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- Close of fade section -->
+
+    <!-- <div class="container">
+            <div id="locNavTog2" class="pos-f-t" style="padding-bottom: 0.35em;">
+                <nav class="navbar navbar-dark bg-secondary">
+                    <div class="row">
+                        <div class="col-1">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTEC2" aria-controls="navbarTEC2"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                        <div class="col-11" style="padding-top: 0.5%;">
+                            <h6 class="text-white" style="display: inline-block; margin-left: 1em; width:50ch;">Location name fifty characters long for displaying</h6>
+                            <span class="text-white" style="font-size: 90%;">Coordinates: -90.999999&deg;, -180.999999&deg;</span>
+                        </div>
+                    </div>
+                </nav>
+                <div class="collapse" id="navbarTEC2">
+                    <div class="bg-dark p-4">
+                        <p class="text-white">Location description 255 chars long long long and long and on on on and on and on....and more....and
+                            more chars...yet more loc chars....and more. And more. And more. Very long loc desc. Very very very
+                            long loc desc. Almost 255...not quite.....almost.</p>
+                        <p class="text-white">Location address may be 75 chars long...so babble away up to 75 chars..done</p>
+                        <form style="text-align: center; padding-top: 2%;">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;" onclick="editLoc()">Edit</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;" onclick="deleteLoc()">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+    
+                </div>
+            </div>
+        </div> -->
+
+
+
+    <!-- <div id="testDiv" style="margin-top: 25em;">
+    
+        </div> -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/location.js"></script>
+    <script>
+        var locNavHeight = parseInt($('#locNav').css("height"));
+        $('#locPH').offset({ top: locNavHeight });
+        var locPHHeight = parseInt($('#locPH').css("height"));
+        $('#addLocNavTog').offset({ top: locNavHeight + locPHHeight });
+        var addLocNavTogHeight = parseInt($('#addLocNavTog').css("height"));
+        // $('#locNavTog2').offset({ top: locNavHeight + locPHHeight + addLocNavTogHeight });
+        $('#locContainer').offset({ top: locNavHeight + locPHHeight + addLocNavTogHeight });
+        $('#editLocDiv').offset({ top: locNavHeight + (locPHHeight * 2) });
+    </script>
+
+
+</body>
+
+</html>

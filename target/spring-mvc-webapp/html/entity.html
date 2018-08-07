@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>SuperSightings - Superheroes/Supervillains</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    </style>
+</head>
+
+<body style="overflow-y: scroll;">
+    <nav id="entNav" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <!-- <a class="navbar-brand" href="#">Superhero/Supervillain Sightings</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="location.html">Locations</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="entity.html">Superheroes/Supervillains</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="organization.html">Organizations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sighting.html">Sightings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="entPH" class="page-header" style="text-align: center; padding: 1em 0 0.5em 0; position: fixed; z-index: 2; background-color: white; width: 100%;">
+        <h2>Superheroes & Supervillains
+            <small class="text-muted"> and their Super Powers</small>
+        </h2>
+    </div>
+    <!-- Entity Edit section begin -->
+    <div id="editEntDiv" style="position: fixed; z-index: 1; width: 75%; margin: 0 12% 0 12%; background-color: #343a40; padding: 3%; display: none;">
+
+
+            <form class="needs-validation" id="editEntForm" novalidate>
+                    <div class="form-row">
+                        <div class="col-8">
+                                <input type="hidden" id="editEntId">
+                            <input id="editEntName" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required>
+                            <div class="invalid-feedback">
+                                Name is required.
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div style="text-align: center;">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-sm btn-success active">
+                                        <input type="radio" name="editEntIsHero" id="option1" autocomplete="off" value="true" checked> Hero
+                                    </label>
+                                    <label class="btn btn-sm btn-danger">
+                                        <input type="radio" name="editEntIsHero" id="option3" autocomplete="off" value="false"> Villain
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <textarea id="editEntDescription" class="form-control form-control-sm" style="resize: none; margin-top: 1%;" placeholder="Description"
+                                maxlength="255" rows="2" required></textarea>
+                            <div class="invalid-feedback">
+                                Description is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 2%;">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect2" class="text-white" style="margin-bottom: 0;">Super Powers</label>
+                                <select multiple class="form-control" id="editEntPowers" size="7" style="background-color: #343a40;" required>
+                                    <!-- Power Selections insert here -->
+                                </select>
+                                <div class="invalid-feedback">
+                                    At least one Super Power is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect2" class="text-white" style="margin-bottom: 0;">Organizations</label>
+                                <select multiple class="form-control" id="editEntOrgs" size="7" style="background-color: #343a40;" required>
+                                    <!-- Organization Selections insert here -->
+                                </select>
+                                <div class="invalid-feedback">
+                                    At least one Organization is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- testing -->
+                    <!-- <button id="testmult" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                onclick="testmultiple()">test</button> -->
+                    <!-- testing -->
+                    <div class="form-row" style="margin-top: 1%;">
+                        <div class="col" id="editEntErrors" style="display: none;">
+                            <!-- Entity Add Errors insert here -->
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 5%; text-align: center;">
+                        <div class="col">
+                            <button id="cancelEntEditButton" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                onclick="cancelEditEnt()">Cancel</button>
+                            <button id="saveEntEdit" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Save</button>
+                        </div>
+                    </div>
+                </form>
+
+
+        <!-- <form class="needs-validation" id="editEntForm" novalidate>
+            <div class="form-row">
+                <div class="col-8">
+                    <input type="hidden" id="editEntId">
+                    <input id="editEntName" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required>
+                    <div class="invalid-feedback">
+                        Name is required.
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input id="editEntLatitude" type="number" class="form-control form-control-sm" placeholder="Latitude" min="-90" max="90"
+                        step="0.000001" required>
+                    <div class="invalid-feedback">
+                        Latitude is required.
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input id="editEntLongitude" type="number" class="form-control form-control-sm" placeholder="Longitude" min="-180" max="180"
+                        step="0.000001" required>
+                    <div class="invalid-feedback">
+                        Longitude is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col">
+                    <textarea id="editEntDescription" class="form-control form-control-sm" style="resize: none;" placeholder="Description" maxlength="255"
+                        rows="3" required></textarea>
+                    <div class="invalid-feedback">
+                        Description is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col">
+                    <input id="editEntAddress" type="text" class="form-control form-control-sm" placeholder="Address" maxlength="75">
+                    <div class="valid-feedback">
+                        Address is optional.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col" id="editEntErrors" style="display: none;"> -->
+                    <!-- Edit Entity Errors insert here -->
+                <!-- </div>
+            </div>
+            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                <div class="col">
+                    <button id="cancelEntEditButton" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                        onclick="cancelEditEnt()">Cancel</button>
+                    <button id="saveEntEdit" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Save</button>
+                </div>
+            </div>
+        </form> -->
+    </div>
+    <!-- Entity Edit section end -->
+
+    <!-- Power Edit section begin -->
+    <div id="editPowDiv" style="position: fixed; z-index: 1; width: 75%; margin: 0 12% 0 12%; background-color: #343a40; padding: 3%; display: none;">
+        <form class="needs-validation" id="editPowForm" novalidate>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col">
+                    <input type="hidden" id="editPowId">
+                    <input id="editPowDescription" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required>
+                    <div class="invalid-feedback">
+                        Name/Description is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col" id="editPowErrors" style="display: none;">
+                    <!-- Edit Power Errors insert here -->
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                <div class="col">
+                    <button id="cancelPowEditButton" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                        onclick="cancelEditPow()">Cancel</button>
+                    <button id="savePowEdit" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Power Edit section end -->
+
+
+    <!-- Open of fade section -->
+    <div id="fadeEntMainDiv">
+        <!-- Entity Add section begin -->
+        <div class="container">
+            <div id="addEntNavTog" class="pos-f-t" style="padding: 1em 0 0.35em 0;">
+                <div class="collapse" id="addEntToggle">
+                    <div class="bg-dark p-4">
+                        <form class="needs-validation" id="addEntForm" novalidate>
+                            <div class="form-row">
+                                <div class="col-8">
+                                    <input id="addEntName" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required>
+                                    <div class="invalid-feedback">
+                                        Name is required.
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div style="text-align: center;">
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="btn btn-sm btn-success active">
+                                                <input type="radio" name="entIsHero" id="option1" autocomplete="off" value="true" checked> Hero
+                                            </label>
+                                            <label class="btn btn-sm btn-danger">
+                                                <input type="radio" name="entIsHero" id="option3" autocomplete="off" value="false"> Villain
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <textarea id="addEntDescription" class="form-control form-control-sm" style="resize: none; margin-top: 1%;" placeholder="Description"
+                                        maxlength="255" rows="2" required></textarea>
+                                    <div class="invalid-feedback">
+                                        Description is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="resize: none; margin-top: 2%;">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect2" class="text-white" style="margin-bottom: 0;">Super Powers</label>
+                                        <select multiple class="form-control" id="selectEntPowers" size="7" style="background-color: #343a40;" required>
+                                            <!-- Power Selections insert here -->
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            At least one Super Power is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect2" class="text-white" style="margin-bottom: 0;">Organizations</label>
+                                        <select multiple class="form-control" id="selectEntOrgs" size="7" style="background-color: #343a40;" required>
+                                            <!-- Organization Selections insert here -->
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            At least one Organization is required.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- testing -->
+                            <!-- <button id="testmult" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                        onclick="testmultiple()">test</button> -->
+                            <!-- testing -->
+                            <div class="form-row" style="margin-top: 1%;">
+                                <div class="col" id="addEntErrors" style="display: none;">
+                                    <!-- Entity Add Errors insert here -->
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                                <div class="col">
+                                    <button id="cancelAddEntity" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                        onclick="cancelAddEnt()">Cancel</button>
+                                    <button id="addEntity" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark bg-dark">
+                    <div>
+                        <button id="addEntNavButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#addEntToggle" aria-controls="addEntToggle"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <h6 class="text-white" style="display: inline-block; margin-left: 1em;">Add Superheroes or Supervillains</h6>
+                        <span class="text-muted">
+                            <em>before adding an associated Sighting.</em>
+                        </span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Entity Add section end -->
+        <!-- Power section begin -->
+        <div class="container">
+            <div id="addPowNavTog" class="pos-f-t" style="padding-bottom: 0.35em;">
+                <div class="collapse" id="addPowToggle">
+                    <div class="bg-dark p-4" style="max-height: 15em; overflow: auto; border-top: solid 0.5em #343a40; border-right: solid 1px #343a40;">
+                        <div id="powContainer" class="container">
+                            <!-- Powers inserted here -->
+                        </div>
+                    </div>
+                    <div class="bg-dark p-4" style="border-top: solid 1px grey;">
+                        <form class="needs-validation" id="addPowForm" novalidate>
+                            <div class="form-row">
+                                <div class="col">
+                                    <input id="addPowDescription" type="text" class="form-control form-control-sm" placeholder="Power Name/Description" maxlength="50"
+                                        style="width: 96.5%; margin: auto;" required>
+                                    <div class="invalid-feedback" style="margin-left: 1.5%;">
+                                        Name/Description is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1%; margin-left: 1%;">
+                                <div class="col" id="addPowErrors">
+                                    <!-- Power Add errors inserted here -->
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                                <div class="col">
+                                    <button id="cancelAddPower" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                        onclick="cancelAddPow()">Cancel</button>
+                                    <button id="addPower" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark bg-dark">
+                    <div>
+                        <button id="addPowNavButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#addPowToggle" aria-controls="addPowToggle"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <h6 class="text-white" style="display: inline-block; margin-left: 1em;">Add Super Powers </h6>
+                        <span class="text-muted">
+                            <em>before adding Superheroes or Supervillains.</em>
+                        </span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Power section end -->
+        <div id="entContainer">
+            <!-- Locations or Web Service Status go here -->
+        </div>
+    </div>
+    <!-- Close of fade section -->
+
+    <!-- <div class="container">
+        <div id="locNavTog2" class="pos-f-t" style="padding-bottom: 0.35em;">
+            <nav class="navbar navbar-dark bg-secondary">
+                <div class="row">
+                    <div class="col-1">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTEC2" aria-controls="navbarTEC2"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="col-11" style="padding-top: 0.5%;">
+                        <h6 class="text-white" style="display: inline-block; margin-left: 1em; width:50ch;">Location name fifty characters long for displaying</h6>
+                        <span class="text-white" style="font-size: 90%;">Coordinates: -90.999999&deg;, -180.999999&deg;</span>
+                    </div>
+                </div>
+            </nav>
+            <div class="collapse" id="navbarTEC2">
+                <div class="bg-dark p-4">
+                    <p class="text-white">Location description 255 chars long long long and long and on on on and on and on....and more....and
+                        more chars...yet more loc chars....and more. And more. And more. Very long loc desc. Very very very
+                        long loc desc. Almost 255...not quite.....almost.</p>
+                    <p class="text-white">Location address may be 75 chars long...so babble away up to 75 chars..done</p>
+                    <form style="text-align: center; padding-top: 2%;">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;" onclick="editLoc()">Edit</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;" onclick="deleteLoc()">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div id="entId1" class="container">
+        <input type="hidden" id="entIdValue1" value="1">
+        <div id="entNavTog1" class="pos-f-t" style="padding-bottom: 0.35em;">
+            <nav class="navbar navbar-dark bg-secondary">
+                <div class="row">
+                    <div class="col-1">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogEx1" aria-controls="navbarTogEx1"
+                            aria-expanded="true" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="col-11" style="padding-top: 0.75%;">
+                        <h6 id="entName1" class="text-white" style="display: inline-block; margin-left: 1em; width: 50ch;">Batman</h6>
+                        <span id="entIsHero1" value="true"><img src="../images/Hero.png" class="img-fluid" style="width: 5%;"></span>
+                        
+                    </div>
+                </div>
+            </nav>
+            <div id="navbarTogEx1" class="collapse-show">
+                <div class="bg-dark p-4">
+                    <p id="entDesc1" class="text-white" style="margin-left: 2%; margin-right: 2%;">Dark Knight...Caped Crusader...World's Greatest Detective.</p>
+                    <h6 id="entPowers1" class="text-white" style="text-decoration: underline;">Powers</h6>
+                    <ul class="list-inline text-white">
+                        <li id="ent1Power1" value="1" class="list-inline-item">Flight</li>
+                        <li id="ent1Power2" value="2" class="list-inline-item">Martial Arts</li>
+                        <li id="ent1Power3" value="3" class="list-inline-item">Eidetic Memory</li>
+                    </ul>
+                    <form style="text-align: center; padding-top: 2%;">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;" onclick="editEntity(1)">Edit</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;" onclick="deleteEntity(1)">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div id="testDiv" style="margin-top: 25em;">
+
+    </div> -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/entity.js"></script>
+    <script>
+        var entNavHeight = parseInt($('#entNav').css("height"));
+        $('#entPH').offset({ top: entNavHeight });
+        var entPHHeight = parseInt($('#entPH').css("height"));
+        $('#addEntNavTog').offset({ top: entNavHeight + entPHHeight });
+        var addEntNavTogHeight = parseInt($('#addEntNavTog').css("height"));
+        // $('#entNavTog2').offset({ top: entNavHeight + entPHHeight + addEntNavTogHeight });
+        // $('#entId1').offset({ top: entNavHeight + entPHHeight + addEntNavTogHeight });
+        $('#addPowNavTog').offset({ top: entNavHeight + entPHHeight + addEntNavTogHeight });
+        var addPowNavTogHeight = parseInt($('#addPowNavTog').css("height"));
+        $('#entContainer').offset({ top: entNavHeight + entPHHeight + addEntNavTogHeight + addPowNavTogHeight });
+        $('#editEntDiv').offset({ top: entNavHeight + (entPHHeight * 2) });
+        $('#editPowDiv').offset({ top: entNavHeight + (entPHHeight * 2) });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>SuperSightings - Locations</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    </style>
+</head>
+
+<body style="overflow-y: scroll;">
+    <nav id="sigNav" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <!-- <a class="navbar-brand" href="#">Superhero/Supervillain Sightings</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="location.html">Locations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="entity.html">Superheroes/Supervillains</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="organization.html">Organizations</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="sighting.html">Sightings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="sigPH" class="page-header" style="text-align: center; padding: 1em 0 0.5em 0; position: fixed; z-index: 1; background-color: white; width: 100%;">
+        <h2>Sightings
+            <small class="text-muted"> of Superheroes & Supervillains</small>
+        </h2>
+    </div>
+
+    <div id="editSigDiv" style="position: fixed; z-index: 1; width: 75%; margin: 0 12% 0 12%; background-color: #343a40; padding: 3%; display: none;">
+            <form class="needs-validation" id="editSigForm" novalidate>
+                    <div class="form-row">
+                        <div class="col-6">
+                                <input type="hidden" id="editSigId">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect2" class="text-white" style="margin-bottom: 0;">Superheroes & Supervillains</label>
+                                <select multiple class="form-control" id="editSigEnts" size="10" style="background-color: #343a40;" required>
+                                    <!-- Superhero or Supervillain Selections insert here -->
+                                </select>
+                                <div class="invalid-feedback">
+                                    At least one Superhero or Supervillain is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect2" class="text-white" style="margin-bottom: 0;">Locations</label>
+                                <select class="form-control" id="editSigLoc" size="7" style="background-color: #343a40;" required>
+                                    <!-- Location Selections insert here -->
+                                </select>
+                                <div class="invalid-feedback">
+                                    A Location is required.
+                                </div>
+                            </div>
+                            <div>
+                                <input id="editSigDateTime" class="form-control form-control-sm bg-dark text-white" type="datetime-local" step="1" style="width: 100%;"
+                                    required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- testing -->
+                    <!-- <button id="testmult" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                        onclick="testmultiple()">test</button> -->
+                    <!-- testing -->
+                    <div class="form-row" style="margin-top: 1%;">
+                        <div class="col" id="editSigErrors" style="display: none;">
+
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 5%; text-align: center;">
+                        <div class="col">
+                            <button id="cancelSigEditButton" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                onclick="cancelEditSig()">Cancel</button>
+                            <button id="saveSigEdit" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Save</button>
+                        </div>
+                    </div>
+                </form>
+
+        <!-- <form class="needs-validation" id="editSigForm" novalidate>
+            <div class="form-row">
+                <div class="col-8">
+                    <input type="hidden" id="editSigId">
+                    <input id="editSigName" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required>
+                    <div class="invalid-feedback">
+                        Name is required.
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input id="editSigLatitude" type="number" class="form-control form-control-sm" placeholder="Latitude" min="-90" max="90"
+                        step="0.000001" required>
+                    <div class="invalid-feedback">
+                        Latitude is required.
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input id="editSigLongitude" type="number" class="form-control form-control-sm" placeholder="Longitude" min="-180" max="180"
+                        step="0.000001" required>
+                    <div class="invalid-feedback">
+                        Longitude is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col"> -->
+                    <!-- <input id="editSigDescription" type="text" class="form-control form-control-sm" placeholder="Description" maxlength="255"
+                        required> -->
+                    <!-- <textarea id="editSigDescription" class="form-control form-control-sm" style="resize: none;" placeholder="Description" maxlength="255"
+                        rows="3" required></textarea>
+                    <div class="invalid-feedback">
+                        Description is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col">
+                    <input id="editSigAddress" type="text" class="form-control form-control-sm" placeholder="Address" maxlength="75">
+                    <div class="valid-feedback">
+                        Address is optional.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col" id="editSigErrors" style="display: none;">
+
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                <div class="col">
+                    <button id="cancelSigEditButton" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                        onclick="cancelEditSig()">Cancel</button>
+                    <button id="saveSigEdit" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Save</button>
+                </div>
+            </div>
+        </form> -->
+    </div>
+
+    <!-- Open of fade section -->
+    <div id="fadeSigMainDiv">
+        <div class="container">
+            <div id="addSigNavTog" class="pos-f-t" style="padding: 1em 0 0.35em 0;">
+                <div class="collapse" id="addSigToggle">
+                    <div class="bg-dark p-4">
+                        <!-- <h4 class="text-white">Collapsed content</h4>
+                    <span class="text-muted">Toggleable via the navbar brand.</span> -->
+                        <form class="needs-validation" id="addSigForm" novalidate>
+                            <div class="form-row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect2" class="text-white" style="margin-bottom: 0;">Superheroes & Supervillains</label>
+                                        <select multiple class="form-control" id="selectSigEntities" size="10" style="background-color: #343a40;" required>
+                                            <!-- Superhero or Supervillain Selections insert here -->
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            At least one Superhero or Supervillain is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect2" class="text-white" style="margin-bottom: 0;">Locations</label>
+                                        <select class="form-control" id="selectSigLocation" size="7" style="background-color: #343a40;" required>
+                                            <!-- Location Selections insert here -->
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            A Location is required.
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input id="sigDateTime" class="form-control form-control-sm bg-dark text-white" type="datetime-local" step="1" style="width: 100%;"
+                                            required>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- testing -->
+                            <button id="testmult" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                onclick="testmultiple()">test</button>
+                            <!-- testing -->
+                            <div class="form-row" style="margin-top: 1%;">
+                                <div class="col" id="addSigErrors" style="display: none;">
+
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                                <div class="col">
+                                    <button id="cancelAddSighting" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                        onclick="cancelAddSig()">Cancel</button>
+                                    <button id="addSighting" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark bg-dark">
+                    <div>
+                        <button id="addSigNavButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#addSigToggle" aria-controls="addSigToggle"
+                            aria-expanded="false" aria-label="Toggle navigation" onclick="defaultDateTime()">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <h6 class="text-white" style="display: inline-block; margin-left: 1em;">Add a Sighting </h6>
+                        <span class="text-muted">
+                            <em>of Superheroes and Supervillains.</em>
+                        </span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div id="sigContainer">
+            <!-- Sightings or Web Service Status go here -->
+        </div>
+
+
+
+    </div>
+    <!-- Close of fade section -->
+
+    <!-- <div class="container">
+        <div id="locNavTog2" class="pos-f-t" style="padding-bottom: 0.35em;">
+            <nav class="navbar navbar-dark bg-secondary">
+                <div class="row">
+                    <div class="col-1">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTEC2" aria-controls="navbarTEC2"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="col-11" style="padding-top: 0.5%;">
+                        <h6 class="text-white" style="display: inline-block; margin-left: 1em; width:50ch;">Location name fifty characters long for displaying</h6>
+                        <span class="text-white" style="font-size: 90%;">Coordinates: -90.999999&deg;, -180.999999&deg;</span>
+                    </div>
+                </div>
+            </nav>
+            <div class="collapse" id="navbarTEC2">
+                <div class="bg-dark p-4">
+                    <p class="text-white">Location description 255 chars long long long and long and on on on and on and on....and more....and
+                        more chars...yet more loc chars....and more. And more. And more. Very long loc desc. Very very very
+                        long loc desc. Almost 255...not quite.....almost.</p>
+                    <p class="text-white">Location address may be 75 chars long...so babble away up to 75 chars..done</p>
+                    <form style="text-align: center; padding-top: 2%;">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;" onclick="editLoc()">Edit</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;" onclick="deleteLoc()">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div> -->
+
+
+
+    <!-- <div id="testDiv" style="margin-top: 25em;">
+
+    </div> -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/sighting.js"></script>
+    <script>
+        var sigNavHeight = parseInt($('#sigNav').css("height"));
+        $('#sigPH').offset({ top: sigNavHeight });
+        var sigPHHeight = parseInt($('#sigPH').css("height"));
+        $('#addSigNavTog').offset({ top: sigNavHeight + sigPHHeight });
+        var addSigNavTogHeight = parseInt($('#addSigNavTog').css("height"));
+        // $('#sigNavTog2').offset({ top: sigNavHeight + sigPHHeight + addSigNavTogHeight });
+        $('#sigContainer').offset({ top: sigNavHeight + sigPHHeight + addSigNavTogHeight });
+        $('#editSigDiv').offset({ top: sigNavHeight + (sigPHHeight * 2) });
+    </script>
+</body>
+
+</html>

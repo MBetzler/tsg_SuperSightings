@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>SuperSightings - Home</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .mapView {
+            height: 300px;
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body style="overflow-y: scroll;">
+
+    <nav id="homeNav" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <!-- <a class="navbar-brand" href="#">Superhero/Supervillain Sightings</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="html/location.html">Locations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="html/entity.html">Superheroes/Supervillains</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="html/organization.html">Organizations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="html/sighting.html">Sightings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="homePH" class="page-header" style="text-align: center; padding: 1em 0 0.5em 0; position: fixed; z-index: 1; background-color: white; width: 100%;">
+        <h2><small class="text-muted">recent</small> Sightings of Superheroes and Supervillains
+            
+        </h2>
+    </div>
+
+    <!-- Open of fade section -->
+    <div id="fadeHomeMainDiv" class="container">
+        <!-- <button type="button" onclick="testmaps1()">test1</button>
+        <button type="button" onclick="testmaps2()">test2</button> -->
+        <div class="row" id="mapRow">
+
+        </div>
+    </div>
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+        var homeNavHeight = parseInt($('#homeNav').css("height"));
+        $('#homePH').offset({ top: homeNavHeight });
+        var homePHHeight = parseInt($('#homePH').css("height"));
+        // // $('#addHomeNavTog').offset({ top: homeNavHeight + homePHHeight });
+        $('#fadeHomeMainDiv').offset({ top: homeNavHeight + homePHHeight*2 });
+        // var addHomeNavTogHeight = parseInt($('#addHomeNavTog').css("height"));
+        // // $('#locNavTog2').offset({ top: locNavHeight + locPHHeight + addLocNavTogHeight });
+        // $('#homeContainer').offset({ top: homeNavHeight + homePHHeight + addHomeNavTogHeight });
+        // $('#editHomeDiv').offset({ top: homeNavHeight + (homePHHeight * 2) });
+    </script>
+    <!-- <script>
+        function initMap() {
+            var uluru = { lat: -25.363, lng: 131.044 };
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: uluru
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+        }
+    </script> -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_aAW8i5GC2DXIyPmmI9qBdYagN9dyY1o&callback=initMap">
+    </script>
+</body>
+
+</html>

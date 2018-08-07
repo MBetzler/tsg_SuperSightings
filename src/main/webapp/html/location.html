@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>SuperSightings - Locations</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    </style>
+</head>
+
+<body style="overflow-y: scroll;">
+    <!-- Navigation Links -->
+    <nav id="locNav" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <!-- <a class="navbar-brand" href="#">Superhero/Supervillain Sightings</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="location.html">Locations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="entity.html">Superheroes/Supervillains</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="organization.html">Organizations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="sighting.html">Sightings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Page Header -->
+    <div id="locPH" class="page-header" style="text-align: center; padding: 1em 0 0.5em 0; position: fixed; z-index: 1; background-color: white; width: 100%;">
+        <h2>Locations
+            <small class="text-muted"> of Superhero/Supervillain Sightings</small>
+        </h2>
+        <!-- REMOVE - FOR TESTING - REMOVE - FOR TESTING - REMOVE - FOR TESTING - REMOVE - FOR TESTING - REMOVE - FOR TESTING - REMOVE - FOR TESTING - -->
+
+        <!-- <button id="errortestingbutton" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                        onclick="checkElementVal()">Test</button> -->
+
+        <!-- REMOVE - FOR TESTING - REMOVE - FOR TESTING - REMOVE - FOR TESTING - REMOVE - FOR TESTING - REMOVE - FOR TESTING - REMOVE - FOR TESTING - -->
+    </div>
+
+    <!-- Form to Edit a Location; hidden by default and made visible only during Edit -->
+    <div id="editLocDiv" style="position: fixed; z-index: 1; width: 75%; margin: 0 12% 0 12%; background-color: #343a40; padding: 3%; display: none;">
+        <form class="needs-validation" id="editLocForm" novalidate>
+            <div class="form-row">
+                <div class="col-8">
+                    <input type="hidden" id="editLocId">
+                    <input id="editLocName" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required>
+                    <div class="invalid-feedback">
+                        Name is required.
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input id="editLocLatitude" type="number" class="form-control form-control-sm" placeholder="Latitude" min="-90" max="90"
+                        step="0.000001" required>
+                    <div class="invalid-feedback">
+                        <!-- Latitude is required. -->
+                        Required (-90/90).
+                    </div>
+                </div>
+                <div class="col-2">
+                    <input id="editLocLongitude" type="number" class="form-control form-control-sm" placeholder="Longitude" min="-180" max="180"
+                        step="0.000001" required>
+                    <div class="invalid-feedback">
+                        <!-- Longitude is required. -->
+                        Required (-180/180).
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col">
+                    <!-- <input id="editLocDescription" type="text" class="form-control form-control-sm" placeholder="Description" maxlength="255"
+                        required> -->
+                    <textarea id="editLocDescription" class="form-control form-control-sm" style="resize: none;" placeholder="Description" maxlength="255"
+                        rows="3" required></textarea>
+                    <div class="invalid-feedback">
+                        Description is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col">
+                    <input id="editLocAddress" type="text" class="form-control form-control-sm" placeholder="Address" maxlength="75">
+                    <div class="valid-feedback">
+                        Address is optional.
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 1%;">
+                <div class="col" id="editLocErrors" style="display: none;">
+
+                </div>
+            </div>
+            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                <div class="col">
+                    <button id="cancelLocEditButton" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                        onclick="cancelEditLoc()">Cancel</button>
+                    <button id="saveLocEdit" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Open of fade section -->
+    <div id="fadeLocMainDiv">
+        <!-- Add Location -->
+        <div class="container">
+            <div id="addLocNavTog" class="pos-f-t" style="padding: 1em 0em 0.35em;">
+                <div class="collapse" id="addLocToggle">
+                    <div class="bg-dark p-4">
+                        <!-- <h4 class="text-white">Collapsed content</h4>
+                    <span class="text-muted">Toggleable via the navbar brand.</span> -->
+                        <form class="needs-validation" id="addLocForm" novalidate>
+                            <div class="form-row">
+                                <div class="col-8">
+                                    <input id="addLocName" type="text" class="form-control form-control-sm" placeholder="Name" maxlength="50" required>
+                                    <div class="invalid-feedback">
+                                        Name is required.
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <input id="addLocLatitude" type="number" class="form-control form-control-sm" placeholder="Latitude" min="-90" max="90" step="0.000001"
+                                        required>
+                                    <div class="invalid-feedback">
+                                        <!-- Latitude is required. -->
+                                        Required (-90/90).
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <input id="addLocLongitude" type="number" class="form-control form-control-sm" placeholder="Longitude" min="-180" max="180"
+                                        step="0.000001" required>
+                                    <div class="invalid-feedback">
+                                        <!-- Longitude is required. -->
+                                        Required (-180/180).
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1%;">
+                                <div class="col">
+                                    <!-- <input id="addLocDescription" type="text" class="form-control form-control-sm" placeholder="Description" maxlength="255"
+                                        required> -->
+                                    <textarea id="addLocDescription" class="form-control form-control-sm" style="resize: none;" placeholder="Description" maxlength="255"
+                                        rows="3" required></textarea>
+                                    <div class="invalid-feedback">
+                                        Description is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1%;">
+                                <div class="col">
+                                    <input id="addLocAddress" type="text" class="form-control form-control-sm" placeholder="Address" maxlength="75">
+                                    <div class="valid-feedback">
+                                        Address is optional.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 1%;">
+                                <div class="col" id="addLocErrors" style="display: none;">
+
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 5%; text-align: center;">
+                                <div class="col">
+                                    <button id="cancelAddLocation" type="button" class="btn btn-sm btn-outline-secondary" style="width: 45%; margin-right: 2%;"
+                                        onclick="cancelAddLoc()">Cancel</button>
+                                    <button id="addLocation" type="button" class="btn btn-sm btn-outline-success" style="width: 45%; margin-left: 2%;">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <nav class="navbar navbar-dark bg-dark">
+                    <div>
+                        <button id="addLocNavButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#addLocToggle" aria-controls="addLocToggle"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <h6 class="text-white" style="display: inline-block; margin-left: 1em;">Add a Location </h6>
+                        <span class="text-muted">
+                            <em>before adding an associated Sighting.</em>
+                        </span>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div id="locContainer">
+            <!-- Locations or Web Service Status go here -->
+        </div>
+
+
+
+    </div>
+    <!-- Close of fade section -->
+
+    <!-- <div class="container">
+        <div id="locNavTog2" class="pos-f-t" style="padding-bottom: 0.35em;">
+            <nav class="navbar navbar-dark bg-secondary">
+                <div class="row">
+                    <div class="col-1">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTEC2" aria-controls="navbarTEC2"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="col-11" style="padding-top: 0.5%;">
+                        <h6 class="text-white" style="display: inline-block; margin-left: 1em; width:50ch;">Location name fifty characters long for displaying</h6>
+                        <span class="text-white" style="font-size: 90%;">Coordinates: -90.999999&deg;, -180.999999&deg;</span>
+                    </div>
+                </div>
+            </nav>
+            <div class="collapse" id="navbarTEC2">
+                <div class="bg-dark p-4">
+                    <p class="text-white">Location description 255 chars long long long and long and on on on and on and on....and more....and
+                        more chars...yet more loc chars....and more. And more. And more. Very long loc desc. Very very very
+                        long loc desc. Almost 255...not quite.....almost.</p>
+                    <p class="text-white">Location address may be 75 chars long...so babble away up to 75 chars..done</p>
+                    <form style="text-align: center; padding-top: 2%;">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-sm btn-outline-warning" style="width: 45%; margin-right: 2%;" onclick="editLoc()">Edit</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" style="width: 45%; margin-left: 2%;" onclick="deleteLoc()">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div> -->
+
+
+
+    <!-- <div id="testDiv" style="margin-top: 25em;">
+
+    </div> -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/location.js"></script>
+    <script>
+        var locNavHeight = parseInt($('#locNav').css("height"));
+        $('#locPH').offset({ top: locNavHeight });
+        var locPHHeight = parseInt($('#locPH').css("height"));
+        $('#addLocNavTog').offset({ top: locNavHeight + locPHHeight });
+        var addLocNavTogHeight = parseInt($('#addLocNavTog').css("height"));
+        // $('#locNavTog2').offset({ top: locNavHeight + locPHHeight + addLocNavTogHeight });
+        $('#locContainer').offset({ top: locNavHeight + locPHHeight + addLocNavTogHeight });
+        $('#editLocDiv').offset({ top: locNavHeight + (locPHHeight * 2) });
+    </script>
+</body>
+
+</html>
