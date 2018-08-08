@@ -4,6 +4,12 @@ CREATE DATABASE SuperSightings;
 
 USE SuperSightings;
 
+-- DROP DATABASE IF EXISTS SuperSightingsTest;
+
+-- CREATE DATABASE SuperSightingsTest;
+
+-- USE SuperSightingsTest;
+
 -- CREATE Entity
 CREATE TABLE IF NOT EXISTS Entity
 (EntityID SMALLINT UNSIGNED AUTO_INCREMENT,
